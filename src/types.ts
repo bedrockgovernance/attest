@@ -91,7 +91,7 @@ export interface Usage {
 /**
  * The generation bundle passed to {@link Bedrock.attest}.
  *
- * Only `correlationId`, `model`, `systemPrompt`, `messages` and
+ * Only `correlationId`, `model`, `instructions`, `input` and
  * `output` are required. Everything else is optional, included when
  * your pipeline has it.
  */

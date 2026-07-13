@@ -80,11 +80,14 @@ export function attestMiddleware(options: AttestMiddlewareOptions): LanguageMode
     middlewareVersion: 'v2',
     wrapGenerate: async ({ doGenerate, params, model }) => {
       const result = await doGenerate();
+      const onErrorHandler = options.onError ?? ((error: unknown) => {
+        // Default: warn so attestation failures are discoverable by default.
+        // eslint-disable-next-line no-console
+        console.warn('attest: background attestation failed', error);
+      });
       options.bedrock
         .attest(buildGeneration(options, params, model, result))
-        .catch((error: unknown) => {
-          options.onError?.(error);
-        });
+        .catch(onErrorHandler);
       return result;
     },
   };

@@ -1,7 +1,11 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { attestMiddleware } from '../src/ai-sdk';
 import type { Bedrock } from '../src/client';
 import type { Generation } from '../src/types';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 /** Flush pending microtasks so the fire-and-forget attest settles. */
 function flush(): Promise<void> {
@@ -136,6 +140,5 @@ describe('attestMiddleware', () => {
     await flush();
 
     expect(warn).toHaveBeenCalledWith('attest: background attestation failed', failure);
-    warn.mockRestore();
   });
 });

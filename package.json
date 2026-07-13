@@ -1,0 +1,83 @@
+{
+  "name": "@bedrockgovernance/attest",
+  "version": "0.1.0",
+  "description": "Capture what an AI model was asked and what it produced, at the moment of generation, and record it as an immutable entry in the Bedrock advice ledger.",
+  "license": "Apache-2.0",
+  "author": "Luke Bettridge",
+  "homepage": "https://bedrockgovernance.com/docs/concepts/attest",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bedrockgovernance/attest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bedrockgovernance/attest/issues"
+  },
+  "keywords": [
+    "bedrock",
+    "attestation",
+    "ledger",
+    "audit",
+    "immutable",
+    "ai",
+    "llm",
+    "provenance",
+    "consumer-duty",
+    "fca",
+    "compliance",
+    "ai-sdk"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./ai-sdk": {
+      "types": "./dist/ai-sdk.d.ts",
+      "default": "./dist/ai-sdk.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
+    "lint": "eslint --ext .ts src/",
+    "prepare": "tsc"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "@ai-sdk/provider": ">=2",
+    "ai": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "@ai-sdk/provider": {
+      "optional": true
+    },
+    "ai": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@ai-sdk/provider": "^3.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "ai": "^6.0.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  }
+}

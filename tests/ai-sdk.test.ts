@@ -1,7 +1,11 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { attestMiddleware } from '../src/ai-sdk';
 import type { Bedrock } from '../src/client';
 import type { Generation } from '../src/types';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 /** Flush pending microtasks so the fire-and-forget attest settles. */
 function flush(): Promise<void> {
@@ -122,8 +126,10 @@ describe('attestMiddleware', () => {
     expect(onError).toHaveBeenCalledWith(failure);
   });
 
-  it('swallows attestation failures when no onError is given', async () => {
-    const { bedrock } = stubBedrock(vi.fn().mockRejectedValue(new Error('nope')));
+  it('warns on attestation failure when no onError is given', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const failure = new Error('nope');
+    const { bedrock } = stubBedrock(vi.fn().mockRejectedValue(failure));
     const mw = attestMiddleware({ bedrock, correlationId: 'chat-4' });
 
     const params = { prompt: [{ role: 'user', content: [{ type: 'text', text: 'Hi' }] }] };
@@ -132,5 +138,7 @@ describe('attestMiddleware', () => {
       run(mw, { doGenerate: () => Promise.resolve(result), params, model: MODEL }),
     ).resolves.toBe(result);
     await flush();
+
+    expect(warn).toHaveBeenCalledWith('attest: background attestation failed', failure);
   });
 });

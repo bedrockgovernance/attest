@@ -37,7 +37,8 @@ export interface AttestMiddlewareOptions {
   /**
    * Called if the background attestation fails. The wrapped model call
    * itself always succeeds regardless; use this to log or alert. When
-   * omitted, attestation failures are swallowed.
+   * omitted, failures are logged with `console.warn` so they stay
+   * discoverable.
    */
   onError?: (error: unknown) => void;
 }

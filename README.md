@@ -75,7 +75,9 @@ const model = wrapLanguageModel({
 The middleware posts the attestation in the background after the model
 responds, so it never adds latency to the call. Attestation failures
 are surfaced through an optional `onError` callback and never affect the
-model result.
+model result. When `onError` is omitted the middleware will log a console
+warning by default so background attestation failures are discoverable
+unless you handle them explicitly.
 
 ## Grouping generations
 
